@@ -1,0 +1,11 @@
+FROM golang:1.20
+WORKDIR /usr/src/app
+COPY . .
+RUN CGO_ENABLED=0 go build -v -o /usr/local/bin/app -a  ./...
+
+# FROM alpine:latest
+FROM golang:alpine
+WORKDIR /usr/src/app
+COPY --from=0 /usr/local/bin/app ./
+
+CMD ["./app"]
